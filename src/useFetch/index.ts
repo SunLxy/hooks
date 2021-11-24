@@ -2,7 +2,11 @@ import React from 'react';
 /** fetch 请求 */
 const useFetch = (url: RequestInfo, options: RequestInit) => {
   // 状态值存储
-  const [store, setStore] = React.useState({
+  const [store, setStore] = React.useState<{
+    loading: boolean;
+    error: Error | undefined;
+    data: any;
+  }>({
     loading: false,
     error: undefined,
     data: undefined,
@@ -15,7 +19,11 @@ const useFetch = (url: RequestInfo, options: RequestInit) => {
       const json = await res.json();
       setStore({ data: json, error: undefined, loading: false });
     } catch (err: any) {
-      setStore({ ...store, error: err, loading: false });
+      setStore({
+        ...store,
+        error: err,
+        loading: false,
+      });
       return;
     }
     setStore({ ...store, loading: false });
