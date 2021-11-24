@@ -1,6 +1,6 @@
 import React from 'react';
 /** fetch 请求 */
-const useFetch = (url: RequestInfo, options: RequestInit) => {
+const useFetch = (url: RequestInfo, options?: RequestInit) => {
   // 状态值存储
   const [store, setStore] = React.useState<{
     loading: boolean;
