@@ -1,8 +1,9 @@
 import React from 'react';
+import useStore from './../useStore';
 /** fetch 请求 */
 const useFetch = (url: RequestInfo, options?: RequestInit) => {
   // 状态值存储
-  const [store, setStore] = React.useState<{
+  const store = useStore<{
     loading: boolean;
     error: Error | undefined;
     data: any;
@@ -13,20 +14,19 @@ const useFetch = (url: RequestInfo, options?: RequestInit) => {
   });
   // 接口请求
   const run = async () => {
-    setStore({ ...store, loading: true });
+    store.setValue({ ...store.store, loading: true });
     try {
       const res = await fetch(url, options);
       const json = await res.json();
-      setStore({ data: json, error: undefined, loading: false });
+      store.setValue({ data: json, error: undefined, loading: false });
     } catch (err: any) {
-      setStore({
-        ...store,
+      store.setValue({
+        ...store.store,
         error: err,
         loading: false,
       });
       return;
     }
-    setStore({ ...store, loading: false });
   };
   return {
     ...store,
